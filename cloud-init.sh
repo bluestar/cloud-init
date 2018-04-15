@@ -21,12 +21,15 @@ github=https://raw.githubusercontent.com/bluestar/cloud-init/master
 
 mkdir -pv modules/ssh
 curl -s -o modules/ssh/init-ssh.sh "$github/modules/ssh/init-ssh.sh"
+mkdir -pv modules/yum
+curl -s -o modules/yum/init-yum.sh "$github/modules/yum/init-yum.sh"
 mkdir -pv modules/timezone
 curl -s -o modules/timezone/init-timezone.sh "$github/modules/timezone/init-timezone.sh"
 
 echo "Executing modules"
 
 bash modules/ssh/init-ssh.sh
+bash modules/yum/init-yum.sh
 bash modules/timezone/init-timezone.sh
 
 #ssh-keyscan -H github.com >> ~/.ssh/known_hosts
