@@ -11,7 +11,7 @@ if [ -f $timezone_file ];then
         echo "no need to update /etc/localtime"
     else
         echo "will update /etc/localtime"
-        mv /etc/localtime /etc/localtime.bak
+        mv -fv /etc/localtime /etc/localtime.bak
         ln -s $timezone_file /etc/localtime
     fi
 fi
