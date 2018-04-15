@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # download with curl like
-#       curl -o /var/tmp/cloud-boot.sh https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh
+#       curl -s -o /var/tmp/cloud-boot.sh https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh
 # then execute
 #       /var/tmp/cloud-boot.sh
 
