@@ -1,2 +1,2 @@
 # cloud-init
-A collection of scripts to setup an individual host
+A collection of scripts to setup a linux host
