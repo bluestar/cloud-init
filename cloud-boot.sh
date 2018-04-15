@@ -16,7 +16,7 @@ mkdir -pv $CLOUDROOT
 cd $CLOUDROOT
 
 if [[ $? -ne 0 ]]; then
-    echo "Cannot access /opt/cloud-init"
+    echo "Cannot access $CLOUDROOT"
     exit -1
 fi
 

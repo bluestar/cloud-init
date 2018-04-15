@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "init SSH module"
 if [ -f ~/.ssh/id_rsa ]
 then
 	echo "Private key is present, skipping ssh-keygen stage"
