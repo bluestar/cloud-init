@@ -17,3 +17,7 @@ github=https://raw.githubusercontent.com/bluestar/cloud-init/master
 
 mkdir -pv modules/ssh
 curl -o modules/ssh/init-ssh.sh "$github/modules/ssh/init-ssh.sh"
+
+bash modules/ssh/init-ssh.sh
+
+#ssh-keyscan -H github.com >> ~/.ssh/known_hosts
