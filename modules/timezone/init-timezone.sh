@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo "init timezone module"
-timezone = $( curl -s https://timezoneapi.io/api/ip/ | jq ".|.data|.timezone|.id" )
-timezone_file = "/usr/share/zoneinfo/${timezone}"
+timezone=$( curl -s https://timezoneapi.io/api/ip/ | jq ".|.data|.timezone|.id" )
+timezone_file="/usr/share/zoneinfo/${timezone}"
 
 if [ -f $timezone_file ];then
     echo "this host is expected to be in $timezone timezone"
