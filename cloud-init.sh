@@ -22,7 +22,7 @@ github=https://raw.githubusercontent.com/bluestar/cloud-init/master
 mkdir -pv modules/ssh
 curl -s -o modules/ssh/init-ssh.sh "$github/modules/ssh/init-ssh.sh"
 mkdir -pv modules/timezone
-curl -s -o modules/timezone/init-timezone.sh "$github/modules/ssh/init-timezone.sh"
+curl -s -o modules/timezone/init-timezone.sh "$github/modules/timezone/init-timezone.sh"
 
 echo "Executing modules"
 
