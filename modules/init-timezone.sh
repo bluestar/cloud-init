@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "init timezone module"
+
 timezone=$( curl -s https://timezoneapi.io/api/ip/ | jq -r ".|.data|.timezone|.id" )
 timezone_file="/usr/share/zoneinfo/${timezone}"
 
