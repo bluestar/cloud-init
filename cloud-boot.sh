@@ -4,6 +4,8 @@
 #       curl -s -o /var/tmp/cloud-boot.sh https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh
 # then execute
 #       /var/tmp/cloud-boot.sh
+# alternative for the brave
+#       curl -s -L https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh | bash
 
 if [[ $EUID -ne 0 ]]; then
     echo "This script must be run as root"

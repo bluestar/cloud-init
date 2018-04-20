@@ -2,8 +2,7 @@
 
 echo "init SSH module"
 
-if [ -f ~/.ssh/id_* ]
-then
+if ls ~/.ssh/id_* 1> /dev/null 2>&1; then
     echo "list of present keys:"
     for keyfile in ~/.ssh/id_*; do ssh-keygen -l -f "${keyfile}"; done | uniq
 fi
