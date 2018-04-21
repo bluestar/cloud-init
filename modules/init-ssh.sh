@@ -3,9 +3,13 @@
 echo "init SSH module"
 
 if ls ~/.ssh/id_* 1> /dev/null 2>&1; then
-    echo "list of present keys:"
+    echo "list of present keys for the user:"
     for keyfile in ~/.ssh/id_*; do ssh-keygen -l -f "${keyfile}"; done | uniq
 fi
+
+echo "list of present keys for the server:"
+#ls -l /etc/ssh/ssh_host*pub
+for keyfile in /etc/ssh/ssh_host*; do ssh-keygen -l -f "${keyfile}"; done | uniq
 
 if [ -f ~/.ssh/id_rsa ]
 then
