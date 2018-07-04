@@ -2,6 +2,8 @@
 
 echo "init timezone module"
 
+yum -y install jq
+
 timezone=$( curl -s https://timezoneapi.io/api/ip/ | jq -r ".|.data|.timezone|.id" )
 timezone_file="/usr/share/zoneinfo/${timezone}"
 
