@@ -3,7 +3,7 @@
 echo "init python module"
 
 if [ -x "$(command -v zypper)" ]; then
-  zypper --non-interactive install python
+  zypper --non-interactive install python python-xml
 elif [ -x "$(command -v dnf)" ]; then
   dnf -y install python
 else
