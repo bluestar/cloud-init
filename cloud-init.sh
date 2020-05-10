@@ -27,6 +27,7 @@ curl -s -o modules/init-dnf.sh "$github/modules/init-dnf.sh"
 curl -s -o modules/init-zypper.sh "$github/modules/init-zypper.sh"
 curl -s -o modules/init-timezone.sh "$github/modules/init-timezone.sh"
 curl -s -o modules/init-python.sh "$github/modules/init-python.sh"
+curl -s -o modules/init-access.sh "$github/modules/init-access.sh"
 
 echo "Executing modules"
 
@@ -36,5 +37,6 @@ bash modules/init-zypper.sh
 bash modules/init-ssh.sh
 bash modules/init-python.sh
 bash modules/init-timezone.sh
+bash modules/init-access.sh
 
 #ssh-keyscan -H github.com >> ~/.ssh/known_hosts
