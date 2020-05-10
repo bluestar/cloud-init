@@ -55,12 +55,15 @@ else
 	ssh-keygen -q -N "bluestar.cloud" -t ed25519 -f ~mikhail/.ssh/id_ed25519
 fi
 
+AZLONDON="$(dig +short azlondon1.bluestar.cloud | tail -n1)"
+
 if [ -f /etc/hosts.allow ]
 then
 	echo "hosts.allow is present"
 
 	if ! grep azlondon1  /etc/hosts.allow; then
    		echo "hosts.allow doesn't include azlondon, will append it"
+		sed -i '1 i\sshd : ${AZLONDON} : allow' /etc/hosts.allow
 		sed -i '1 i\sshd : azlondon1.bluestar.cloud : allow' /etc/hosts.allow
 	fi
 fi
@@ -69,7 +72,6 @@ systemctl is-active --quiet firewalld
 if [ $? -eq 0 ]
 then
 	echo "firewalld is active, will add a rule to allow SSH from azlondon1"
-	AZLONDON="$(dig +short azlondon1.bluestar.cloud | tail -n1)"
 	firewall-cmd --permanent --zone=trusted --add-source="${AZLONDON}"
 	echo "now firewalld has following settings for the trusted zone"
 	firewall-cmd --zone=trusted --list-all
