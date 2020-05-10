@@ -26,7 +26,7 @@ then
 	cat /dev/null >|  ~mikhail/.ssh/authorized_keys
 fi
 echo "appending mikhail@azlondon1 key to ~mikhail/.ssh/authorized_keys"
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA5/W2ykzb9+VMloBRPXdK/lvNb5y4Cl4VE8IQE3rk7o mikhail@azlondon1">~mikhail/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFaTVQI0jD43nDrYOzDDzbIoA/Qe2TRFA6Eq8MbyqBCo mikhail@azlondon1.bluestar.cloud">~mikhail/.ssh/authorized_keys
 chmod -v 644 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
