@@ -63,7 +63,7 @@ then
 
 	if ! grep azlondon1  /etc/hosts.allow; then
    		echo "hosts.allow doesn't include azlondon, will append it"
-		sed -i '1 i\sshd : ${AZLONDON} : allow' /etc/hosts.allow
+		sed -i "1 i\sshd : ${AZLONDON} : allow" /etc/hosts.allow
 		sed -i '1 i\sshd : azlondon1.bluestar.cloud : allow' /etc/hosts.allow
 	fi
 fi
