@@ -7,8 +7,9 @@ for keyfile in /etc/ssh/ssh_host*; do ssh-keygen -l -f "${keyfile}"; done | uniq
 
 if [ -f /etc/ssh/ssh_host_rsa_key ]
 then
-	echo "A host RSA key is present, will remove it and an associated public key"
-	rm -fv /etc/ssh/ssh_host_rsa*
+	echo "A host RSA key is present, skipping ssh-keygen stage"
+else
+	ssh-keygen -q -N "" -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key
 fi
 
 if [ -f /etc/ssh/ssh_host_dsa_key ]
