@@ -24,6 +24,7 @@ mkdir -pv modules
 curl -s -o modules/init-ssh.sh "$github/modules/init-ssh.sh"
 curl -s -o modules/init-yum.sh "$github/modules/init-yum.sh"
 curl -s -o modules/init-dnf.sh "$github/modules/init-dnf.sh"
+curl -s -o modules/init-apt.sh "$github/modules/init-apt.sh"
 curl -s -o modules/init-zypper.sh "$github/modules/init-zypper.sh"
 curl -s -o modules/init-timezone.sh "$github/modules/init-timezone.sh"
 curl -s -o modules/init-python.sh "$github/modules/init-python.sh"
@@ -33,6 +34,7 @@ echo "Executing modules"
 
 bash modules/init-yum.sh
 bash modules/init-dnf.sh
+bash modules/init-apt.sh
 bash modules/init-zypper.sh
 bash modules/init-ssh.sh
 bash modules/init-python.sh
