@@ -6,7 +6,7 @@ if [ -x "$(command -v zypper)" ]; then
   zypper --non-interactive install python python-xml
 elif [ -x "$(command -v dnf)" ]; then
   dnf -y install python36
-elif [ -x "${command -v apt)" ]; then
+elif [ -x "$(command -v apt)" ]; then
   apt -y install python36
 else
   yum -y install python
