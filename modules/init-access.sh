@@ -41,7 +41,7 @@ if [ -f ~mikhail/.ssh/id_rsa ]
 then
 	echo "A private RSA key is present, skipping ssh-keygen stage"
 else
-	ssh-keygen -q -N "bluestar.cloud" -t rsa -b 4096 -f ~mikhail/.ssh/id_rsa
+	sudo -u mikhail ssh-keygen -q -N "bluestar.cloud" -t rsa -b 4096 -f ~mikhail/.ssh/id_rsa
 fi
 
 if [ -f ~mikhail/.ssh/id_dsa ]
