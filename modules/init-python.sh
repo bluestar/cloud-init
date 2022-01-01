@@ -28,7 +28,8 @@ fi
 if [ -x "$(command -v python3)" ]; then
   curl "https://bootstrap.pypa.io/get-pip.py" | python3
 elif [ -x "$(command -v python)" ]; then
-  curl "https://bootstrap.pypa.io/get-pip.py" | python
+  # Python 2.x is legacy; assuming Python 2.7 is available
+  curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" | python
 else
   echo "Unable to install Python PIP as there is no python or python3 installed"
 fi
