@@ -18,8 +18,8 @@ elif [ -x "$(command -v apt)" ]; then
     apt -y install python3
   fi
 
-  # install the default python3-distutils package hoping it will match installed python3 version
-  apt -y install python3-distutils
+  # install the default python3-setuptools and python3-distutils packages hoping they will match installed python3 version
+  apt -y install python3-setuptools python3-distutils
 else
   yum -y install python
 fi
