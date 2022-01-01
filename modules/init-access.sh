@@ -29,6 +29,8 @@ fi
 #echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFaTVQI0jD43nDrYOzDDzbIoA/Qe2TRFA6Eq8MbyqBCo mikhail@azlondon1.bluestar.cloud">~mikhail/.ssh/authorized_keys
 echo "appending mikhail@azlondon3 key to ~mikhail/.ssh/authorized_keys"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII3l4P/tbD0SjOEt6l8GmTAb5ZKOiHgs7I9aywVwwA9S mikhail@azlondon3.bluestar.cloud">~mikhail/.ssh/authorized_keys
+echo "appending mikhail@Carminestar-M2 key to ~mikhail/.ssh/authorized_keys"
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+lu44XmYowFufA4d+KPtmqQCsTFPBGiEofYZC4FbY0 mikhail@Carminestar-M2">~mikhail/.ssh/authorized_keys
 chmod -v 644 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
