@@ -13,7 +13,7 @@ elif [ -x "$(command -v dnf)" ]; then
 elif [ -x "$(command -v apt)" ]; then
   # Ubuntu 20.04+ has python-is-python3 package
   if [ $MAJOR_VERSION -ge 5 ] ; then
-    apt -y python-is-python3
+    apt -y install python-is-python3
   else
     apt -y install python3
   fi
