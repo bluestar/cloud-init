@@ -81,9 +81,9 @@ then
 	firewall-cmd --zone=trusted --list-all
 fi
 
-if [ -f /etc/sudoers]
+if [ -f /etc/sudoers ]
 then
-    if  ! grep mikhail /etc/sudoers; then
+    if ! grep mikhail /etc/sudoers; then
 		echo "/etc/sudoers found, will add mikhail as NOPASSWD:ALL"
 		sed -i '$ a\mikhail ALL=(root) NOPASSWD:ALL' /etc/sudoers
 	else
