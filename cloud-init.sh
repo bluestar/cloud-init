@@ -29,7 +29,7 @@ curl -s -o modules/init-zypper.sh "$github/modules/init-zypper.sh"
 curl -s -o modules/init-timezone.sh "$github/modules/init-timezone.sh"
 curl -s -o modules/init-python.sh "$github/modules/init-python.sh"
 curl -s -o modules/init-access.sh "$github/modules/init-access.sh"
-curl -s -o modules/init-postifx.sh "$github/modules/init-postfix.sh"
+curl -s -o modules/init-postfix.sh "$github/modules/init-postfix.sh"
 
 echo "Executing modules"
 
