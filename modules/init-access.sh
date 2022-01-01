@@ -80,3 +80,13 @@ then
 	echo "now firewalld has following settings for the trusted zone"
 	firewall-cmd --zone=trusted --list-all
 fi
+
+if [ -f /etc/sudoers]
+then
+    if  ! grep mikhail /etc/sudoers; then
+		echo "/etc/sudoers found, will add mikhail as NOPASSWD:ALL"
+		sed -i '$ a\mikhail ALL=(root) NOPASSWD:ALL' /etc/sudoers
+	else
+		echo "/etc/sudoers found and it contains a record for mikhail"
+	fi
+fi
