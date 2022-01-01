@@ -16,6 +16,7 @@ elif [ -x "$(command -v apt)" ]; then
     apt -y python-is-python3
   else
     apt -y install python3
+  fi
 else
   yum -y install python
 fi
