@@ -30,7 +30,7 @@ fi
 echo "appending mikhail@azlondon3 key to ~mikhail/.ssh/authorized_keys"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII3l4P/tbD0SjOEt6l8GmTAb5ZKOiHgs7I9aywVwwA9S mikhail@azlondon3.bluestar.cloud">>~mikhail/.ssh/authorized_keys
 echo "appending mikhail@Carminestar-M2 key to ~mikhail/.ssh/authorized_keys"
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+lu44XmYowFufA4d+KPtmqQCsTFPBGiEofYZC4FbY0 mikhail@Carminestar-M2">>~mikhail/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8C0myMlTz89f1SOdlfM7lcLdb1M0HAPoLh6vsnDmMc mikhail@Carminestar-M2">>~mikhail/.ssh/authorized_keys
 chmod -v 644 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
