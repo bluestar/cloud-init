@@ -3,9 +3,10 @@
 echo "setup access from the control pane"
 
 adduser mikhail
+[ $(getent group wheel) ] || addgroup wheel
 
-getent group wheel && usermod -aG wheel mikhail
-getent group sudo && usermod -aG sudo mikhail
+[ $(getent group wheel) ] && usermod -aG wheel mikhail
+[ $(getent group sudo) ] && usermod -aG sudo mikhail
 
 usermod -aG wheel sudo
 
