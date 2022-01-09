@@ -29,6 +29,8 @@ fi
 #echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFaTVQI0jD43nDrYOzDDzbIoA/Qe2TRFA6Eq8MbyqBCo mikhail@azlondon1.bluestar.cloud">>~mikhail/.ssh/authorized_keys
 echo "appending mikhail@azlondon3 key to ~mikhail/.ssh/authorized_keys"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII3l4P/tbD0SjOEt6l8GmTAb5ZKOiHgs7I9aywVwwA9S mikhail@azlondon3.bluestar.cloud">>~mikhail/.ssh/authorized_keys
+echo "appending mikhail@oclondon5 key to ~mikhail/.ssh/authorized_keys"
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC0ndI9pVcdVnIVX1BGNoO6BUlzOPp4AkXGQ7jEwCAVt mikhail@oclondon5">>~mikhail/.ssh/authorized_keys
 echo "appending mikhail@Carminestar-M2 key to ~mikhail/.ssh/authorized_keys"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8C0myMlTz89f1SOdlfM7lcLdb1M0HAPoLh6vsnDmMc mikhail@Carminestar-M2">>~mikhail/.ssh/authorized_keys
 chmod -v 644 ~mikhail/.ssh/authorized_keys
@@ -61,6 +63,8 @@ fi
 
 AZLONDON="$(dig +short azlondon3.bluestar.cloud | tail -n1)"
 
+OCLONDON="$(dig +short oclondon5.bluestar.cloud | tail -n1)"
+
 if [ -f /etc/hosts.allow ]
 then
 	echo "hosts.allow is present"
@@ -70,6 +74,13 @@ then
 		sed -i "1 i\sshd : ${AZLONDON} : allow" /etc/hosts.allow
 		sed -i '1 i\sshd : azlondon3.bluestar.cloud : allow' /etc/hosts.allow
 	fi
+
+	
+	if ! grep oclondon5  /etc/hosts.allow; then
+   		echo "hosts.allow doesn't include oclondon5, will append it"
+		sed -i "1 i\sshd : ${OCLONDON} : allow" /etc/hosts.allow
+		sed -i '1 i\sshd : oclondon5.bluestar.cloud : allow' /etc/hosts.allow
+	fi
 fi
 
 systemctl is-active --quiet firewalld
@@ -77,6 +88,8 @@ if [ $? -eq 0 ]
 then
 	echo "firewalld is active, will add a rule to allow SSH from azlondon3"
 	firewall-cmd --permanent --zone=trusted --add-source="${AZLONDON}"
+	echo "firewalld is active, will add a rule to allow SSH from oclondon5"
+	firewall-cmd --permanent --zone=trusted --add-source="${OCLONDON}"
 	echo "now firewalld has following settings for the trusted zone"
 	firewall-cmd --zone=trusted --list-all
 fi
