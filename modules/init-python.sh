@@ -8,7 +8,14 @@ MINOR_VERSION=$(uname -r | awk -F '.' '{print $2}')
 if [ -x "$(command -v zypper)" ]; then
   zypper --non-interactive install python python-xml
 elif [ -x "$(command -v dnf)" ]; then
-  dnf -y install python36
+  os_major_version=$(lsb_release -sr | cut -d'.' -f1)
+
+  if [[ "$os_name" == "AlmaLinux" && "$os_major_version" == "9" ]]; then
+    dnf -y install python39
+  elif [[ "$os_name" == "AlmaLinux" && "$os_major_version" == "8" ]]; then
+    dnf -y install python36
+  fi
+
   dnf -y install policycoreutils-python-utils
 elif [ -x "$(command -v apt)" ]; then
   # Ubuntu 20.04+ has python-is-python3 package
