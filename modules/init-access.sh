@@ -31,7 +31,8 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC0ndI9pVcdVnIVX1BGNoO6BUlzOPp4AkXGQ7j
 echo "appending mikhail@Carminestar-M2 key to ~mikhail/.ssh/authorized_keys"
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8C0myMlTz89f1SOdlfM7lcLdb1M0HAPoLh6vsnDmMc mikhail@Carminestar-M2">>~mikhail/.ssh/authorized_keys
 echo "appending mikhail@Mikhail-PC key to ~mikhail/.ssh/authorized_keys"
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdtj2n96cIk+jnSghluyZvNivo2JQVHpZN+hDUKazA0 mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
+#echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdtj2n96cIk+jnSghluyZvNivo2JQVHpZN+hDUKazA0 mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN276PzeQ0Vop7ieSfM+MktazQfrSBmxlrnfDkxUzsqb mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
 chmod -v 644 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
