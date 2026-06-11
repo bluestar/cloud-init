@@ -14,7 +14,7 @@ if [ -x "$(command -v dnf)" ]; then
   dnf -y check-update || true
   dnf -y update
   dnf -y install jq
-  echo jq version `jq --version` is installed
+  echo "jq version $(jq --version) is installed"
   # Get the operating system name and version
   os_name=$(. /etc/os-release && echo "$NAME")
   os_major_version=$(. /etc/os-release && echo "${VERSION_ID%%.*}")
