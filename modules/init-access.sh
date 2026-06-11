@@ -1,14 +1,29 @@
 #!/bin/bash
 
+set -euo pipefail
+
+if [ -n "${WSL_DISTRO_NAME:-}" ] || grep -qi microsoft /proc/version 2> /dev/null; then
+    echo "WSL detected, refusing to run"
+    exit 1
+fi
+
 echo "setup access from the control pane"
 
-adduser mikhail
-[ $(getent group wheel) ] || addgroup wheel
+# useradd/groupadd are non-interactive and exist on both Debian- and
+# RHEL-family systems, unlike adduser/addgroup
+if getent passwd mikhail > /dev/null; then
+    echo "user mikhail already exists"
+else
+    useradd -m -s /bin/bash mikhail
+fi
+getent group wheel > /dev/null || groupadd wheel
 
-[ $(getent group wheel) ] && usermod -aG wheel mikhail
-[ $(getent group sudo) ] && usermod -aG sudo mikhail
-
-usermod -aG wheel sudo
+if getent group wheel > /dev/null; then
+    usermod -aG wheel mikhail
+fi
+if getent group sudo > /dev/null; then
+    usermod -aG sudo mikhail
+fi
 
 if [[ ! -e ~mikhail/.ssh ]]; then
     mkdir ~mikhail/.ssh
@@ -33,12 +48,12 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8C0myMlTz89f1SOdlfM7lcLdb1M0HAPoLh6v
 echo "appending mikhail@Mikhail-PC key to ~mikhail/.ssh/authorized_keys"
 #echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdtj2n96cIk+jnSghluyZvNivo2JQVHpZN+hDUKazA0 mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN276PzeQ0Vop7ieSfM+MktazQfrSBmxlrnfDkxUzsqb mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
-chmod -v 644 ~mikhail/.ssh/authorized_keys
+chmod -v 600 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
 if ls ~mikhail/.ssh/id_* 1> /dev/null 2>&1; then
     echo "list of present keys for the user:"
-    for keyfile in ~mikhail/.ssh/id_*; do ssh-keygen -l -f "${keyfile}"; done | uniq
+    for keyfile in ~mikhail/.ssh/id_*; do ssh-keygen -l -f "${keyfile}"; done | uniq || true
 fi
 
 if [ -f ~mikhail/.ssh/id_rsa ]
@@ -61,34 +76,57 @@ else
 	sudo -u mikhail ssh-keygen -q -N "bluestar.cloud" -t ed25519 -f ~mikhail/.ssh/id_ed25519
 fi
 
-OCLONDON="$(dig +short oclondon5.bluestar.cloud | tail -n1)"
+OCLONDON="$(dig +short oclondon5.bluestar.cloud | tail -n1)" || OCLONDON=""
+
+if [ -z "$OCLONDON" ]; then
+	echo "WARNING: could not resolve oclondon5.bluestar.cloud, IP-based access rules will be skipped"
+fi
 
 if [ -f /etc/hosts.allow ]
 then
 	echo "hosts.allow is present"
-	
-	if ! grep oclondon5  /etc/hosts.allow; then
+
+	if ! grep -q oclondon5 /etc/hosts.allow; then
    		echo "hosts.allow doesn't include oclondon5, will append it"
-		sed -i "1 i\sshd : ${OCLONDON} : allow" /etc/hosts.allow
+		if [ -n "$OCLONDON" ]; then
+			sed -i "1 i\sshd : ${OCLONDON} : allow" /etc/hosts.allow
+		fi
 		sed -i '1 i\sshd : oclondon5.bluestar.cloud : allow' /etc/hosts.allow
 	fi
 fi
 
-systemctl is-active --quiet firewalld
-if [ $? -eq 0 ]
+if systemctl is-active --quiet firewalld
 then
-	echo "firewalld is active, will add a rule to allow SSH from oclondon5"
-	firewall-cmd --permanent --zone=trusted --add-source="${OCLONDON}"
-	echo "now firewalld has following settings for the trusted zone"
-	firewall-cmd --zone=trusted --list-all
+	if [ -n "$OCLONDON" ]; then
+		echo "firewalld is active, will add a rule to allow SSH from oclondon5"
+		firewall-cmd --permanent --zone=trusted --add-source="${OCLONDON}"
+		echo "now firewalld has following settings for the trusted zone"
+		firewall-cmd --zone=trusted --list-all
+	else
+		echo "firewalld is active but oclondon5 did not resolve, skipping trusted zone rule"
+	fi
 fi
 
-if [ -f /etc/sudoers ]
-then
-    if ! grep mikhail /etc/sudoers; then
-		echo "/etc/sudoers found, will add mikhail as NOPASSWD:ALL"
-		sed -i '$ a\mikhail ALL=(root) NOPASSWD:ALL' /etc/sudoers
+sudoers_file=/etc/sudoers.d/mikhail
+
+if [ -f "$sudoers_file" ]; then
+	echo "$sudoers_file already exists, leaving it unchanged"
+elif grep -q '^mikhail' /etc/sudoers 2> /dev/null; then
+	# hosts bootstrapped by older versions of this script have the
+	# entry directly in /etc/sudoers
+	echo "/etc/sudoers already contains a record for mikhail"
+elif [ -d /etc/sudoers.d ]; then
+	echo "will add mikhail as NOPASSWD:ALL via $sudoers_file"
+	echo 'mikhail ALL=(root) NOPASSWD:ALL' > "${sudoers_file}.tmp"
+	# never install a sudoers file that visudo rejects: a malformed
+	# file disables sudo entirely
+	if visudo -cf "${sudoers_file}.tmp"; then
+		chmod 0440 "${sudoers_file}.tmp"
+		mv "${sudoers_file}.tmp" "$sudoers_file"
 	else
-		echo "/etc/sudoers found and it contains a record for mikhail"
+		echo "generated sudoers entry failed visudo validation, not installing it"
+		rm -f "${sudoers_file}.tmp"
 	fi
+else
+	echo "/etc/sudoers.d not found, skipping sudo configuration for mikhail"
 fi

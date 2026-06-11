@@ -22,10 +22,10 @@ The modules currently perform these tasks:
 | --- | --- |
 | `modules/init-yum.sh` | Initializes hosts with `yum`: installs EPEL, updates packages, and installs common tools plus postfix/mail packages. |
 | `modules/init-dnf.sh` | Initializes hosts with `dnf`: installs EPEL, updates packages, installs common tools, and handles AlmaLinux mail package differences. |
-| `modules/init-apt.sh` | Initializes hosts with `apt`: installs common diagnostic and administration tools. |
+| `modules/init-apt.sh` | Initializes hosts with `apt`: refreshes package lists, installs common diagnostic and administration tools, and installs postfix/mailutils (preseeded for local-only delivery). |
 | `modules/init-zypper.sh` | Initializes hosts with `zypper`: installs `jq`. |
-| `modules/init-ssh.sh` | Reviews SSH host keys, creates RSA and Ed25519 host keys when missing, removes DSA/ECDSA host keys, creates a root Ed25519 client key when missing, and starts `ssh-agent` if needed. |
-| `modules/init-python.sh` | Installs Python packages appropriate to the detected package manager and installs `pip` from PyPA bootstrap scripts. |
+| `modules/init-ssh.sh` | Reviews SSH host keys, creates RSA and Ed25519 host keys when missing, removes DSA/ECDSA host keys, reloads `sshd` when host keys changed, creates a root Ed25519 client key when missing, and verifies the root key loads into a temporary `ssh-agent`. |
+| `modules/init-python.sh` | Installs Python packages appropriate to the detected package manager and installs `pip` from the distro packages, falling back to the PyPA bootstrap script. |
 | `modules/init-timezone.sh` | Uses `timezoneapi.io` and `jq` to detect timezone by public IP and points `/etc/localtime` at the matching zoneinfo file. |
 | `modules/init-access.sh` | Creates/configures the `mikhail` user, adds SSH authorized keys, creates user SSH keys, updates sudo access, and optionally restricts/allows SSH access from `oclondon5.bluestar.cloud`. |
 | `modules/init-postfix.sh` | Enables postfix when available, forwards root mail to `support@bluestar.cloud`, and rebuilds aliases. |
@@ -51,6 +51,8 @@ reviewed before running on a new distribution.
 ## Requirements
 
 - Run as `root`.
+- Not supported on WSL/WSL2: all scripts detect WSL and refuse to run, so a
+  development environment cannot be reconfigured by accident.
 - `curl` must be available for the bootstrap scripts.
 - Internet access is required to download modules, package updates, Python
   bootstrap scripts, and timezone data.
@@ -63,21 +65,21 @@ reviewed before running on a new distribution.
 Download and run the boot script:
 
 ```bash
-curl -s -o /var/tmp/cloud-boot.sh https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh
+curl -fsSL -o /var/tmp/cloud-boot.sh https://raw.githubusercontent.com/bluestar/cloud-init/main/cloud-boot.sh
 bash /var/tmp/cloud-boot.sh
 ```
 
 Or run it directly:
 
 ```bash
-curl -s -L https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh | bash
+curl -fsSL https://raw.githubusercontent.com/bluestar/cloud-init/main/cloud-boot.sh | bash
 ```
 
 Both approaches require root privileges. If you are not already root, use
 `sudo`:
 
 ```bash
-curl -s -L https://raw.githubusercontent.com/bluestar/cloud-init/master/cloud-boot.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/bluestar/cloud-init/main/cloud-boot.sh | sudo bash
 ```
 
 ## Manual Usage
@@ -96,7 +98,7 @@ sudo bash modules/init-access.sh
 ```
 
 The main script downloads fresh copies of all modules into `/opt/cloud-init`
-from the `master` branch before executing them. Local changes in a cloned
+from the `main` branch before executing them. Local changes in a cloned
 checkout are not used by `cloud-boot.sh` unless you run the local module files
 directly.
 
