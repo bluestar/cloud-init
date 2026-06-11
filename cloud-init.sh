@@ -43,13 +43,26 @@ done
 
 echo "Executing modules"
 
+# per-module results, read by cloud-boot.sh for the execution summary
+status_file="$CLOUDROOT/modules.status"
+: > "$status_file"
+
 # run every module even if one fails: aborting early could leave a fresh
-# host without SSH access configured
+# host without SSH access configured.
+# modules exit 0 on success, 100 when they have nothing to do on this
+# system (e.g. their package manager is absent), anything else on failure
 failed=""
 for module in $modules; do
-    if ! bash "modules/${module}.sh"; then
+    rc=0
+    bash "modules/${module}.sh" || rc=$?
+    if [ "$rc" -eq 0 ]; then
+        echo "${module} OK" >> "$status_file"
+    elif [ "$rc" -eq 100 ]; then
+        echo "${module} SKIPPED" >> "$status_file"
+    else
         echo "ERROR: module ${module}.sh failed"
         failed="$failed ${module}.sh"
+        echo "${module} FAIL" >> "$status_file"
     fi
 done
 

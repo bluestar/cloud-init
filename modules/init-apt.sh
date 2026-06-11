@@ -27,4 +27,7 @@ if [ -x "$(command -v apt-get)" ]; then
   apt-get -y install postfix mailutils
 
   apt-get -y autoremove
+else
+  echo "apt-get not found, skipping apt module"
+  exit 100
 fi
