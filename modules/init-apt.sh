@@ -19,6 +19,9 @@ if [ -x "$(command -v apt-get)" ]; then
 
   # preseed postfix so its debconf prompts don't block the install;
   # init-postfix.sh sets up the root alias afterwards
+  if ! command -v debconf-set-selections > /dev/null 2>&1; then
+    apt-get -y install debconf-utils
+  fi
   echo "postfix postfix/main_mailer_type select Local only" | debconf-set-selections
   echo "postfix postfix/mailname string $(hostname -f 2> /dev/null || hostname)" | debconf-set-selections
   apt-get -y install postfix mailutils
