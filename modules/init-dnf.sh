@@ -16,9 +16,9 @@ if [ -x "$(command -v dnf)" ]; then
   dnf -y install bind-utils
   dnf -y install telnet net-tools htop nload
 
-  # AlmaLinux 9 has s-nail instead of mailx
-  if [[ "$os_name" == "AlmaLinux" && "$os_major_version" == "9" ]]; then
-    dnf -y install postfix s-nail 
+  # AlmaLinux 9+ has s-nail instead of mailx
+  if [[ "$os_name" == "AlmaLinux" && "$os_major_version" -ge 9 ]]; then
+    dnf -y install postfix s-nail
   elif [[ "$os_name" == "AlmaLinux" && "$os_major_version" == "8" ]]; then
     dnf -y install postfix mailx
   else
