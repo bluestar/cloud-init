@@ -39,4 +39,31 @@ if ! curl -fsSL --retry 5 -o cloud-init.sh "$github/cloud-init.sh"; then
     exit 1
 fi
 
-bash ./cloud-init.sh
+init_rc=0
+bash ./cloud-init.sh || init_rc=$?
+
+echo
+echo "=== cloud-init execution summary ==="
+
+status_file="$CLOUDROOT/modules.status"
+if [ -s "$status_file" ]; then
+    while read -r module result; do
+        if [ "$result" = "OK" ]; then
+            printf '  \033[32m✓\033[0m %s\n' "$module"
+        elif [ "$result" = "SKIPPED" ]; then
+            printf '  \033[90m○\033[0m %s (skipped)\n' "$module"
+        else
+            printf '  \033[31m✗\033[0m %s\n' "$module"
+        fi
+    done < "$status_file"
+else
+    printf '  \033[31m✗\033[0m no module results recorded: cloud-init.sh failed before executing modules\n'
+fi
+
+if [ "$init_rc" -eq 0 ]; then
+    printf '\033[32mBootstrap completed successfully\033[0m\n'
+else
+    printf '\033[31mBootstrap finished with errors (exit code %d)\033[0m\n' "$init_rc"
+fi
+
+exit "$init_rc"

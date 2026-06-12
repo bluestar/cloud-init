@@ -18,4 +18,5 @@ if [ -x "$(command -v postfix)" ]; then
     newaliases
 else
     echo "postfix not found, postfix configuration steps skipped"
+    exit 254
 fi

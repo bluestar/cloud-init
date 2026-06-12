@@ -10,4 +10,7 @@ fi
 if [ -x "$(command -v zypper)" ]; then
   echo "init zypper module"
   zypper --non-interactive install jq
+else
+  echo "zypper not found, skipping zypper module"
+  exit 254
 fi

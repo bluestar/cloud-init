@@ -15,6 +15,9 @@ The main bootstrap flow is:
 1. Create `/opt/cloud-init`.
 2. Download the latest module scripts from this repository.
 3. Run each module as `root`.
+4. Print an execution summary per module: a green tick for success, a red
+   cross for failure, or a neutral circle for modules that had nothing to do
+   on this system (for example `init-apt.sh` on AlmaLinux).
 
 The modules currently perform these tasks:
 

@@ -30,4 +30,7 @@ if [ -x "$(command -v dnf)" ]; then
   else
     dnf -y install postfix
   fi
+else
+  echo "dnf not found, skipping dnf module"
+  exit 254
 fi
