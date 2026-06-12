@@ -16,8 +16,8 @@ fi
 timezone=$( curl -fsSL --retry 5 "https://timezoneapi.io/api/ip/?token=OxpjQBYnaUvo" | jq -r ".|.data|.timezone|.id" ) || timezone=""
 
 if [ -z "$timezone" ] || [ "$timezone" == "null" ]; then
-    echo "unable to detect timezone, leaving /etc/localtime unchanged"
-    exit 0
+    echo "ERROR: unable to detect timezone, leaving /etc/localtime unchanged"
+    exit 1
 fi
 
 timezone_file="/usr/share/zoneinfo/${timezone}"
@@ -34,4 +34,7 @@ if [ -f "$timezone_file" ];then
         fi
         ln -s "$timezone_file" /etc/localtime
     fi
+else
+    echo "ERROR: detected timezone '$timezone' has no zoneinfo file at $timezone_file"
+    exit 1
 fi
