@@ -22,7 +22,7 @@ if [ -z "$api_key" ]; then
     # prompt on /dev/tty: stdin is not the terminal when this script is
     # piped through bash or run by cloud-init.sh
     if printf 'Enter ipgeolocation.io API key (press Enter to skip timezone setup): ' 2> /dev/null > /dev/tty; then
-        read -r -t 120 api_key < /dev/tty || api_key=""
+        read -r -s -t 120 api_key < /dev/tty || api_key=""
         echo > /dev/tty
     fi
 fi
