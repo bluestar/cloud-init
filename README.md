@@ -29,7 +29,7 @@ The modules currently perform these tasks:
 | `modules/init-zypper.sh` | Initializes hosts with `zypper`: installs `jq`. |
 | `modules/init-ssh.sh` | Reviews SSH host keys, creates RSA and Ed25519 host keys when missing, removes DSA/ECDSA host keys, reloads `sshd` when host keys changed, creates a root Ed25519 client key when missing, and verifies the root key loads into a temporary `ssh-agent`. |
 | `modules/init-python.sh` | Installs Python packages appropriate to the detected package manager and installs `pip` from the distro packages, falling back to the PyPA bootstrap script. |
-| `modules/init-timezone.sh` | Uses `timezoneapi.io` and `jq` to detect timezone by public IP and points `/etc/localtime` at the matching zoneinfo file. |
+| `modules/init-timezone.sh` | Uses `ipgeolocation.io` and `jq` to detect timezone by public IP and points `/etc/localtime` at the matching zoneinfo file. Requires an API key via the `IPGEOLOCATION_API_KEY` environment variable or an interactive prompt; without a key the module reports itself as skipped. |
 | `modules/init-access.sh` | Creates/configures the `mikhail` user, adds SSH authorized keys, creates user SSH keys, updates sudo access, and optionally restricts/allows SSH access from `oclondon5.bluestar.cloud`. |
 | `modules/init-postfix.sh` | Enables postfix when available, forwards root mail to `support@bluestar.cloud`, and rebuilds aliases. |
 
@@ -159,8 +159,10 @@ The script sends:
   `sudo`.
 - Package installation fails: check the host package manager repositories and
   network access.
-- Timezone is not updated: confirm `jq` is installed, the timezone API is
-  reachable, and `/usr/share/zoneinfo/<timezone>` exists.
+- Timezone is not updated: confirm an `ipgeolocation.io` API key was provided
+  (`IPGEOLOCATION_API_KEY` or the interactive prompt), `jq` is installed,
+  `api.ipgeolocation.io` is reachable, and `/usr/share/zoneinfo/<timezone>`
+  exists.
 - Postfix steps are skipped: postfix was not installed or the `postfix` command
   is not available in `PATH`.
 - SSH/firewalld access rules are incomplete: confirm DNS resolution for
