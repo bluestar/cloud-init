@@ -32,7 +32,7 @@ if [ -z "$api_key" ]; then
     exit 254
 fi
 
-timezone=$( curl -fsSL --retry 5 "https://api.ipgeolocation.io/v3/ipgeo?apiKey=${api_key}" | jq -r ".time_zone.name" ) || timezone=""
+timezone=$( curl -fsSL --retry 5 --get --data-urlencode "apiKey=${api_key}" "https://api.ipgeolocation.io/v3/ipgeo" | jq -r ".time_zone.name" ) || timezone=""
 
 if [ -z "$timezone" ] || [ "$timezone" == "null" ]; then
     echo "ERROR: unable to detect timezone, leaving /etc/localtime unchanged"
