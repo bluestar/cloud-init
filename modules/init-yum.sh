@@ -11,7 +11,7 @@ fi
 # module when dnf is available and let init-dnf.sh handle the host
 if [ -x "$(command -v dnf)" ]; then
   echo "dnf is available, skipping yum module"
-  exit 100
+  exit 254
 elif [ -x "$(command -v yum)" ]; then
   echo "init yum module"
   yum -y install epel-release
@@ -24,5 +24,5 @@ elif [ -x "$(command -v yum)" ]; then
   yum -y install postfix mailx
 else
   echo "yum not found, skipping yum module"
-  exit 100
+  exit 254
 fi

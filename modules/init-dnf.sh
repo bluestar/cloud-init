@@ -32,5 +32,5 @@ if [ -x "$(command -v dnf)" ]; then
   fi
 else
   echo "dnf not found, skipping dnf module"
-  exit 100
+  exit 254
 fi

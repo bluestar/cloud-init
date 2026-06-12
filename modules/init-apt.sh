@@ -29,5 +29,5 @@ if [ -x "$(command -v apt-get)" ]; then
   apt-get -y autoremove
 else
   echo "apt-get not found, skipping apt module"
-  exit 100
+  exit 254
 fi
