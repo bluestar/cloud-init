@@ -48,6 +48,8 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8C0myMlTz89f1SOdlfM7lcLdb1M0HAPoLh6v
 echo "appending mikhail@Mikhail-PC key to ~mikhail/.ssh/authorized_keys"
 #echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdtj2n96cIk+jnSghluyZvNivo2JQVHpZN+hDUKazA0 mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN276PzeQ0Vop7ieSfM+MktazQfrSBmxlrnfDkxUzsqb mikhail@Mikhail-PC">>~mikhail/.ssh/authorized_keys
+echo "appending mikhail@Mik-Snapdragon1 key to ~mikhail/.ssh/authorized_keys"
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCm97xp2GLDKMvBr6ohmgWchObBa3mnv9B+E8Vtt5DIzMM7PgPjgCGy6pCaPJ6A7l9k3ACV3lV6fKcJ84sE6GqCY5+tNF+VuzsivE16/cfAiU99ITL+7ljLGi3KnECwLWwR17M5Sig3BqQu1BG6171JDh+LFlD4O4budERA+idfNb/seZpGVH1lpYuAZyf2qbsMvCRcH7enyuclN2vMBlAVM5mkO/dz1himCuVmB2K6pic1K5x8P8pi+rmwAxzdS7uTKkx7ti+jJK//QWEUjjSNN7RW2L0zlTQyXCnYO4IevGCoTuXjzwqfpmSAsOJJ+DzEYuEw9F0aEtm6bacOP7h/uifyY99xbOBaPnnnbeoEBOM6FOzuH+YL+9Rwn92T9LQ5YdxZKHqIfhKqVgMnTKwgdQbq0X0GXHlqsg68rz/Q0T1vHmq+KOtT7+GkFrPJYMcgAEGMWdNSj9ZDS/CBYi5jX2Sr84PDfvvv7oKq26F8fA/lH3f8Z8ISD2p3mDNpoHwKXbQYEU6IARWr58aBJ0MQqxpQkgdngW5/oPE+Zt5jaghLQN/l3TlLR4ya5ysSjNQWLXlcgGSDSL+rlH+0ViTkmK9ypemSHp7KyIM4oL8lt8CtuoblJvkonFvGlFUnxTkx7rY4lk4gJAGjja7dTA8su/UTG01e5JXzNyXxMyThLw== mikhail@Mik-Snapdragon1">>~mikhail/.ssh/authorized_keys
 chmod -v 600 ~mikhail/.ssh/authorized_keys
 chown -vR mikhail:mikhail  ~mikhail/.ssh/authorized_keys
 
